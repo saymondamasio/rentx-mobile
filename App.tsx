@@ -10,8 +10,9 @@ import {
 } from '@expo-google-fonts/inter'
 import AppLoading from 'expo-app-loading'
 import React from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components/native'
-import { SchedulingComplete } from './src/screens/SchedulingComplete'
+import { Routes } from './src/routes'
 import theme from './src/styles/theme'
 
 export default function App() {
@@ -29,7 +30,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <SchedulingComplete />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Routes />
+      </GestureHandlerRootView>
     </ThemeProvider>
   )
 }
