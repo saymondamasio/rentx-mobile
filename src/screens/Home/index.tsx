@@ -1,11 +1,15 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { RootStackParamList } from '../../@types/navigation'
 import Logo from '../../assets/logo.svg'
 import { Car } from '../../components/Car'
 import { CarList, Container, Header, HeaderContent, TotalCars } from './styles'
 
-export function Home() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
+
+export function Home({ navigation }: Props) {
   const carData = {
     brand: 'Audi',
     name: 'RS Coupe',
@@ -15,6 +19,10 @@ export function Home() {
     },
     thumbnail:
       'https://w7.pngwing.com/pngs/246/357/png-transparent-audi-sportback-concept-car-2018-audi-a5-coupe-audi-coupe-audi-compact-car-sedan-convertible-thumbnail.png',
+  }
+
+  function handleGoCarDetails() {
+    navigation.navigate('CarDetails')
   }
 
   return (
@@ -31,7 +39,9 @@ export function Home() {
       <CarList
         data={[1, 3, 2, 6, 22, 45]}
         keyExtractor={item => String(item)}
-        renderItem={({ item }) => <Car data={carData} />}
+        renderItem={({ item }) => (
+          <Car data={carData} onPress={handleGoCarDetails} />
+        )}
       />
     </Container>
   )

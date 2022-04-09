@@ -1,4 +1,6 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
+import { RootStackParamList } from '../../@types/navigation'
 import AccelerationIcon from '../../assets/acceleration.svg'
 import ExchangeIcon from '../../assets/exchange.svg'
 import ForceIcon from '../../assets/force.svg'
@@ -26,7 +28,13 @@ import {
   Rent,
 } from './styles'
 
-export function CarDetails() {
+type Props = NativeStackScreenProps<RootStackParamList, 'CarDetails'>
+
+export function CarDetails({ navigation }: Props) {
+  function handleConfirmRental() {
+    navigation.navigate('Scheduling')
+  }
+
   return (
     <Container>
       <Header>
@@ -69,7 +77,10 @@ export function CarDetails() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          title="Escolher período do aluguel"
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   )

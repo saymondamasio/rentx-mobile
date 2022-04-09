@@ -1,6 +1,8 @@
 import { Feather } from '@expo/vector-icons'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTheme } from 'styled-components/native'
+import { RootStackParamList } from '../../@types/navigation'
 import AccelerationIcon from '../../assets/acceleration.svg'
 import ExchangeIcon from '../../assets/exchange.svg'
 import ForceIcon from '../../assets/force.svg'
@@ -37,8 +39,15 @@ import {
   RentalPriceTotal,
 } from './styles'
 
-export function SchedulingDetails() {
+type Props = NativeStackScreenProps<RootStackParamList, 'SchedulingDetails'>
+
+export function SchedulingDetails({ navigation }: Props) {
   const theme = useTheme()
+
+  function handleConfirmScheduling() {
+    navigation.navigate('SchedulingComplete')
+  }
+
   return (
     <Container>
       <Header>
@@ -102,7 +111,11 @@ export function SchedulingDetails() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          title="Alugar agora"
+          color={theme.colors.success}
+          onPress={handleConfirmScheduling}
+        />
       </Footer>
     </Container>
   )

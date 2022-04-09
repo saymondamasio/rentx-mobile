@@ -1,5 +1,4 @@
 import Constants from 'expo-constants'
-import { getBottomSpace } from 'react-native-iphone-x-helper'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -85,7 +84,7 @@ export const Accessories = styled.View`
 export const Footer = styled.View`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.background_primary};
-  padding: 24px 24px ${getBottomSpace() + 24}px;
+  padding: 24px 24px 24px;
 `
 
 export const DateInfo = styled.View``

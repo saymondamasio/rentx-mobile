@@ -1,8 +1,9 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { View } from 'react-native'
-import { getBottomSpace } from 'react-native-iphone-x-helper'
 import { useTheme } from 'styled-components/native'
+import { RootStackParamList } from '../../@types/navigation'
 import ArrowIcon from '../../assets/arrow.svg'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
@@ -20,17 +21,21 @@ import {
   Title,
 } from './styles'
 
-export function Scheduling() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Scheduling'>
+
+export function Scheduling({ navigation }: Props) {
   const theme = useTheme()
+
+  function handleConfirmScheduling() {
+    navigation.navigate('SchedulingDetails')
+  }
+
   return (
     <Container>
       <StatusBar translucent style="light" backgroundColor="transparent" />
       <Header>
         <View style={{ alignSelf: 'flex-start' }}>
-          <BackButton
-            color={theme.colors.shape}
-            onPress={() => console.log('aqio')}
-          />
+          <BackButton color={theme.colors.shape} />
         </View>
 
         <Title>
@@ -61,7 +66,7 @@ export function Scheduling() {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" style={{ paddingBottom: getBottomSpace() }} />
+        <Button title="Confirmar" onPress={handleConfirmScheduling} />
       </Footer>
     </Container>
   )
