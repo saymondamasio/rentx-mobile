@@ -11,7 +11,7 @@ import {
 import AppLoading from 'expo-app-loading'
 import React from 'react'
 import { ThemeProvider } from 'styled-components/native'
-import { CarDetails } from './src/screens/CarDetails'
+import { Scheduling } from './src/screens/Scheduling'
 import theme from './src/styles/theme'
 
 export default function App() {
@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CarDetails />
+      <Scheduling />
     </ThemeProvider>
   )
 }
