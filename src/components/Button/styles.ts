@@ -9,7 +9,7 @@ interface ContainerProps {
 export const Container = styled(RectButton)<ContainerProps>`
   width: 100%;
 
-  padding: 19px;
+  padding: 20px;
   align-items: center;
   justify-content: center;
 
