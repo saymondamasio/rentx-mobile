@@ -1,16 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { RootStackParamList } from '../../@types/navigation'
-import AccelerationIcon from '../../assets/acceleration.svg'
-import ExchangeIcon from '../../assets/exchange.svg'
-import ForceIcon from '../../assets/force.svg'
-import GasolineIcon from '../../assets/gasoline.svg'
-import PeopleIcon from '../../assets/people.svg'
-import SpeedIcon from '../../assets/speed.svg'
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
 import { ImageSlider } from '../../components/ImageSlider'
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
 import {
   About,
   Accessories,
@@ -30,50 +25,49 @@ import {
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CarDetails'>
 
-export function CarDetails({ navigation }: Props) {
+export function CarDetails({ navigation, route }: Props) {
+  const { car } = route.params
+
   function handleConfirmRental() {
     navigation.navigate('Scheduling')
+  }
+
+  function handleBack() {
+    navigation.goBack()
   }
 
   return (
     <Container>
       <Header>
-        <BackButton />
+        <BackButton onPress={handleBack} />
       </Header>
 
       <CarImages>
-        <ImageSlider
-          imagesUrl={[
-            'https://w7.pngwing.com/pngs/246/357/png-transparent-audi-sportback-concept-car-2018-audi-a5-coupe-audi-coupe-audi-compact-car-sedan-convertible-thumbnail.png',
-          ]}
-        />
+        <ImageSlider imagesUrl={car.photos} />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Lamborghini</Brand>
-            <Name>Huracan</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 580</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>{car.rent.price}</Price>
           </Rent>
         </Details>
         <Accessories>
-          <Accessory icon={SpeedIcon} name="380Km/h" />
-          <Accessory icon={AccelerationIcon} name="3.2s" />
-          <Accessory icon={ForceIcon} name="800hp" />
-          <Accessory icon={GasolineIcon} name="Gasolina" />
-          <Accessory icon={ExchangeIcon} name="Auto" />
-          <Accessory icon={PeopleIcon} name="2 pessoas" />
+          {car.accessories.map(item => (
+            <Accessory
+              key={item.type}
+              icon={getAccessoryIcon(item.type)}
+              name={item.name}
+            />
+          ))}
         </Accessories>
-        <About>
-          Este é automóvel desportivo. Surgiu do lendário touro de lide
-          indultado na praça Real Maestranza de Sevilla. É um belíssimo carro
-          para quem gosta de acelerar.
-        </About>
+        <About>{car.about}</About>
       </Content>
 
       <Footer>

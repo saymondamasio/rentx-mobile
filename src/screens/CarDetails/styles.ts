@@ -11,6 +11,8 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   margin-top: ${Constants.statusBarHeight + 18}px;
+  margin-left: 24px;
+
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
