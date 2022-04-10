@@ -33,8 +33,8 @@ export function Home({ navigation }: Props) {
     loadCars()
   }, [])
 
-  function handleGoCarDetails() {
-    navigation.navigate('CarDetails')
+  function handleGoCarDetails(car: CarDTO) {
+    navigation.navigate('CarDetails', { car })
   }
 
   return (
@@ -55,7 +55,7 @@ export function Home({ navigation }: Props) {
           data={cars}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Car data={item} onPress={handleGoCarDetails} />
+            <Car data={item} onPress={() => handleGoCarDetails(item)} />
           )}
         />
       )}
