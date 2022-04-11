@@ -1,13 +1,15 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
+import { DateData } from 'react-native-calendars'
 import { useTheme } from 'styled-components/native'
 import { RootStackParamList } from '../../@types/navigation'
 import ArrowIcon from '../../assets/arrow.svg'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
-import { Calendar } from '../../components/Calendar'
+import { Calendar, MarkedDatesType } from '../../components/Calendar'
+import { generateInterval } from '../../components/Calendar/generateInterval'
 import {
   Container,
   Content,
@@ -26,8 +28,35 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Scheduling'>
 export function Scheduling({ navigation }: Props) {
   const theme = useTheme()
 
+  const [lastSelectedDate, setLastSelectedDate] = useState<DateData>(
+    {} as DateData
+  )
+  const [markedDates, setMarkedDates] = useState<MarkedDatesType>(
+    {} as MarkedDatesType
+  )
+
   function handleConfirmScheduling() {
     navigation.navigate('SchedulingDetails')
+  }
+
+  function handleBack() {
+    navigation.goBack()
+  }
+
+  function handleChangeDate(date: DateData) {
+    let start = !lastSelectedDate.timestamp ? date : lastSelectedDate
+    let end = date
+
+    if (start.timestamp > end.timestamp) {
+      start = end
+      end = start
+    }
+
+    setLastSelectedDate(end)
+
+    const interval = generateInterval(start, end)
+
+    setMarkedDates(interval)
   }
 
   return (
@@ -35,7 +64,7 @@ export function Scheduling({ navigation }: Props) {
       <StatusBar translucent style="light" backgroundColor="transparent" />
       <Header>
         <View style={{ alignSelf: 'flex-start' }}>
-          <BackButton color={theme.colors.shape} />
+          <BackButton color={theme.colors.shape} onPress={handleBack} />
         </View>
 
         <Title>
@@ -62,7 +91,7 @@ export function Scheduling({ navigation }: Props) {
       </Header>
 
       <Content>
-        <Calendar />
+        <Calendar onDayPress={handleChangeDate} markedDates={markedDates} />
       </Content>
 
       <Footer>
