@@ -1,4 +1,6 @@
 import Constants from 'expo-constants'
+import { Platform } from 'react-native'
+import { getBottomSpace } from 'react-native-iphone-x-helper'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -13,6 +15,8 @@ export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  margin-left: 24px;
 
   position: absolute;
 `
@@ -84,7 +88,7 @@ export const Accessories = styled.View`
 export const Footer = styled.View`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.background_primary};
-  padding: 24px 24px 24px;
+  padding: 24px 24px ${Platform.OS === 'ios' ? getBottomSpace() : 24}px;
 `
 
 export const DateInfo = styled.View``
