@@ -1,53 +1,25 @@
 import { Feather } from '@expo/vector-icons'
 import React from 'react'
-import { Calendar as CalendarApp, LocaleConfig } from 'react-native-calendars'
+import {
+  Calendar as CalendarApp,
+  CalendarProps,
+  LocaleConfig,
+} from 'react-native-calendars'
+import { MarkingProps } from 'react-native-calendars/src/calendar/day/marking'
 import { useTheme } from 'styled-components/native'
+import { ptBR } from './localeConfig'
 import { Container } from './styles'
 
-LocaleConfig.locales['pt-br'] = {
-  monthNames: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ],
-  monthNamesShort: [
-    'Jan',
-    'Fev',
-    'Mar',
-    'Abr',
-    'Mai',
-    'Jun',
-    'Jul',
-    'Ago',
-    'Set',
-    'Out',
-    'Nov',
-    'Dez',
-  ],
-  dayNames: [
-    'Domingo',
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
-    'Sábado',
-  ],
-  dayNamesShort: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-  today: 'Hoje',
-}
+LocaleConfig.locales['pt-br'] = ptBR
 LocaleConfig.defaultLocale = 'pt-br'
 
-export function Calendar() {
+interface Props extends CalendarProps {}
+
+export type MarkedDatesType = {
+  [date: string]: MarkingProps
+}
+
+export function Calendar({ ...rest }: Props) {
   const theme = useTheme()
   return (
     <Container>
@@ -79,6 +51,8 @@ export function Calendar() {
           },
         }}
         minDate={new Date().toString()}
+        markingType="period"
+        {...rest}
       />
     </Container>
   )
