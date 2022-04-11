@@ -28,7 +28,7 @@ export function Calendar({ ...rest }: Props) {
         renderArrow={direction => (
           <Feather
             size={24}
-            color={theme.colors.line}
+            color={theme.colors.shape_dark}
             name={direction === 'left' ? 'chevron-left' : 'chevron-right'}
           />
         )}
