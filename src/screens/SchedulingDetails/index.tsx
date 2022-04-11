@@ -71,7 +71,14 @@ export function SchedulingDetails({ navigation, route }: Props) {
         ...dates,
       ]
 
-      await api.put(`cars/${car.id}`, {
+      await api.post('schedules_byuser', {
+        user_id: 1,
+        car,
+        start_date: dates[0],
+        end_date: dates[dates.length - 1],
+      })
+
+      await api.put(`schedules_bycars/${car.id}`, {
         id: car.id,
         unavailable_dates,
       })
