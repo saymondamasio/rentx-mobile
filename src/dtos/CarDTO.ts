@@ -6,6 +6,7 @@ export interface CarDTO {
   rent: {
     period: number
     price: number
+    priceFormatted: string
   }
   fuel_type: string
   thumbnail: string

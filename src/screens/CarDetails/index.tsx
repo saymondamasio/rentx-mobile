@@ -43,7 +43,6 @@ export function CarDetails({ navigation, route }: Props) {
   const scrollY = useSharedValue(0)
   const scrollHandler = useAnimatedScrollHandler(event => {
     scrollY.value = event.contentOffset.y
-    console.log(event.contentOffset.y)
   })
 
   const headerStyleAnimation = useAnimatedStyle(() => ({
@@ -95,7 +94,7 @@ export function CarDetails({ navigation, route }: Props) {
 
           <Rent>
             <Period>{car.rent.period}</Period>
-            <Price>{car.rent.price}</Price>
+            <Price>{car.rent.priceFormatted}</Price>
           </Rent>
         </Details>
         <Accessories>

@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { format } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { RootStackParamList } from '../../@types/navigation'
@@ -10,6 +10,7 @@ import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
 import { ImageSlider } from '../../components/ImageSlider'
 import { api } from '../../services/api'
+import { formatMoney } from '../../utils/formatMoney'
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
 import {
   Accessories,
@@ -54,7 +55,10 @@ export function SchedulingDetails({ navigation, route }: Props) {
   )
   const [loading, setLoading] = useState(false)
 
-  const rentTotal = Number(dates.length * car.rent.price)
+  const rentTotal = useMemo(
+    () => formatMoney(Number(dates.length * car.rent.price)),
+    []
+  )
 
   useEffect(() => {
     setRentalPeriod({
@@ -119,7 +123,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
 
           <Rent>
             <Period>{car.rent.period}</Period>
-            <Price>{car.rent.price}</Price>
+            <Price>{car.rent.priceFormatted}</Price>
           </Rent>
         </Details>
         <Accessories>
@@ -153,7 +157,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
         <RentalPrice>
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
-            <RentalPriceQuota>{`${car.rent.price} x${dates.length} diárias`}</RentalPriceQuota>
+            <RentalPriceQuota>{`${car.rent.priceFormatted} x ${dates.length} diárias`}</RentalPriceQuota>
             <RentalPriceTotal>{rentTotal}</RentalPriceTotal>
           </RentalPriceDetails>
         </RentalPrice>

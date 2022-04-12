@@ -18,6 +18,7 @@ import { Car } from '../../components/Car'
 import { LoadAnimation } from '../../components/LoadAnimation'
 import { CarDTO } from '../../dtos/CarDTO'
 import { api } from '../../services/api'
+import { formatMoney } from '../../utils/formatMoney'
 import {
   CarList,
   Container,
@@ -63,9 +64,14 @@ export function Home({ navigation }: Props) {
     try {
       setLoading(true)
 
-      const responseCars = await api.get('/cars')
+      const responseCars = await api.get<CarDTO[]>('/cars')
 
-      setCars(responseCars.data)
+      const carsFormatted = responseCars.data.map(car => ({
+        ...car,
+        rent: { ...car.rent, priceFormatted: formatMoney(car.rent.price) },
+      }))
+
+      setCars(carsFormatted)
     } catch (error) {
       console.log('Home - ', error)
     } finally {
