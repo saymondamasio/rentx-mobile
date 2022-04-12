@@ -1,5 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import {
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated'
 import { RootStackParamList } from '../../@types/navigation'
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
@@ -17,6 +26,7 @@ import {
   Details,
   Footer,
   Header,
+  HeaderAnimated,
   Name,
   Period,
   Price,
@@ -28,6 +38,23 @@ type Props = NativeStackScreenProps<RootStackParamList, 'CarDetails'>
 export function CarDetails({ navigation, route }: Props) {
   const { car } = route.params
 
+  const statusBarHeight = getStatusBarHeight()
+
+  const scrollY = useSharedValue(0)
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y
+    console.log(event.contentOffset.y)
+  })
+
+  const headerStyleAnimation = useAnimatedStyle(() => ({
+    height: interpolate(
+      scrollY.value,
+      [0, 200],
+      [200, statusBarHeight + 60],
+      Extrapolate.CLAMP
+    ),
+  }))
+
   function handleConfirmRental() {
     navigation.navigate('Scheduling', {
       car,
@@ -38,17 +65,28 @@ export function CarDetails({ navigation, route }: Props) {
     navigation.goBack()
   }
 
+  const sliderCarsStyleAnimation = useAnimatedStyle(() => ({
+    opacity: interpolate(scrollY.value, [0, 200], [1, 0], Extrapolate.CLAMP),
+  }))
+
   return (
     <Container>
-      <Header>
-        <BackButton onPress={handleBack} />
-      </Header>
+      <StatusBar translucent backgroundColor="transparent" style="dark" />
 
-      <CarImages>
-        <ImageSlider imagesUrl={car.photos} />
-      </CarImages>
+      <HeaderAnimated style={[headerStyleAnimation]}>
+        <Header>
+          <BackButton onPress={handleBack} />
+        </Header>
 
-      <Content>
+        <CarImages style={sliderCarsStyleAnimation}>
+          <ImageSlider imagesUrl={car.photos} />
+        </CarImages>
+      </HeaderAnimated>
+
+      <Content
+        onScroll={scrollHandler}
+        scrollEventThrottle={16} // 1000ms/60fps = 16
+      >
         <Details>
           <Description>
             <Brand>{car.brand}</Brand>
