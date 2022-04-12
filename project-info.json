@@ -1,0 +1,56 @@
+{
+  "name": "RentX",
+  "description": "Um app para alugar seu carro de maneira rápida e fácil. Escolha seu carro e selecione o período que o carro ficara disponível para você.",
+  "short_description": "Alugue agora seu carro",
+  "techs": [
+    {
+      "name": "React.js",
+      "url": "https://reactjs.org"
+    },
+    {
+      "name": "React Native",
+      "url": "https://expo.io"
+    },
+    {
+      "name": "Expo",
+      "url": "https://oblador.github.io/react-native-vector-icons"
+    },
+    {
+      "name": "React Navigation",
+      "url": "https://reactnavigation.org"
+    },
+    {
+      "name": "Axios",
+      "url": "https://axios-http.com/ptbr/"
+    },
+    {
+      "name": "Styled Components",
+      "url": "https://www.styled-components.com"
+    },
+    {
+      "name": "React Native Calendars",
+      "url": "https://github.com/wix/react-native-calendars"
+    },
+    {
+      "name": "Lottie",
+      "url": "https://github.com/lottie-react-native/lottie-react-native"
+    },
+    {
+      "name": "React Native Reanimated",
+      "url": "https://docs.swmansion.com/react-native-reanimated"
+    },
+    {
+      "name": "Vector Icons",
+      "url": "https://oblador.github.io/react-native-vector-icons"
+    }
+  ],
+  "videos": [
+    "https://raw.githubusercontent.com/saymondamasio/rentx-mobile/main/.github/demonstration.mp4"
+  ],
+  "images": [
+    "https://raw.githubusercontent.com/saymondamasio/rentx-mobile/main/.github/screenshot-1.png",
+    "https://raw.githubusercontent.com/saymondamasio/rentx-mobile/main/.github/screenshot-2.png",
+    "https://raw.githubusercontent.com/saymondamasio/rentx-mobile/main/.github/screenshot-3.png",
+    "https://raw.githubusercontent.com/saymondamasio/rentx-mobile/main/.github/screenshot-4.png"
+  ]
+}
