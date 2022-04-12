@@ -7,7 +7,7 @@ import { useTheme } from 'styled-components/native'
 import { RootStackParamList } from '../../@types/navigation'
 import { BackButton } from '../../components/BackButton'
 import { Car } from '../../components/Car'
-import { Load } from '../../components/Load'
+import { LoadAnimation } from '../../components/LoadAnimation'
 import { CarDTO } from '../../dtos/CarDTO'
 import { api } from '../../services/api'
 import {
@@ -87,7 +87,7 @@ export function MyCars({ navigation }: Props) {
       </Header>
 
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <Content>
           <Appointments>
