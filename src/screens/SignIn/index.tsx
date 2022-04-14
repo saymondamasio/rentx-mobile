@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
 import {
@@ -8,11 +9,14 @@ import {
 } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import * as Yup from 'yup'
+import { RootStackParamList } from '../../@types/navigation'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles'
 
-export function SignIn() {
+type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>
+
+export function SignIn({ navigation }: Props) {
   const theme = useTheme()
 
   const [email, setEmail] = useState('')
@@ -38,6 +42,10 @@ export function SignIn() {
         )
       }
     }
+  }
+
+  function handleNewAccount() {
+    navigation.navigate('SignUpFirstStep')
   }
 
   return (
@@ -81,10 +89,10 @@ export function SignIn() {
             />
             <Button
               title="Criar conta gratuita"
-              enabled={false}
               loading={false}
               color={theme.colors.background_secondary}
               light
+              onPress={handleNewAccount}
             />
           </Footer>
         </Container>
