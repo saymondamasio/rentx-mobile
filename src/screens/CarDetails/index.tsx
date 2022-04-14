@@ -48,8 +48,8 @@ export function CarDetails({ navigation, route }: Props) {
   const headerStyleAnimation = useAnimatedStyle(() => ({
     height: interpolate(
       scrollY.value,
-      [0, 200],
-      [200, statusBarHeight + 60],
+      [0, 220],
+      [220, statusBarHeight + 60],
       Extrapolate.CLAMP
     ),
   }))
