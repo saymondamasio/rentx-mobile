@@ -18,6 +18,10 @@ export type RootStackParamList = {
     car: CarDTO
     dates: string[]
   }
-  SchedulingComplete: undefined
+  Confirmation: {
+    title: string
+    message: string
+    nextScreenRoute: keyof RootStackParamList
+  }
   MyCars: undefined
 }

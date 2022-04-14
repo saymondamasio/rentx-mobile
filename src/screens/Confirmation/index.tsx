@@ -8,13 +8,14 @@ import LogoIcon from '../../assets/logo_background_gray.svg'
 import { ConfirmButton } from '../../components/ConfirmButton'
 import { Container, Content, Footer, Message, Title } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SchedulingComplete'>
+type Props = NativeStackScreenProps<RootStackParamList, 'Confirmation'>
 
-export function SchedulingComplete({ navigation }: Props) {
+export function Confirmation({ navigation, route }: Props) {
   const { width } = useWindowDimensions()
+  const { message, nextScreenRoute, title } = route.params
 
   function handleConfirm() {
-    navigation.navigate('Home')
+    navigation.navigate(nextScreenRoute)
   }
 
   return (
@@ -23,11 +24,8 @@ export function SchedulingComplete({ navigation }: Props) {
       <LogoIcon width={width} />
       <Content>
         <DoneIcon width={80} height={80} />
-        <Title>Carro alugado!</Title>
-        <Message>
-          Agora você só precisa ir{'\n'}até a concessionaria da RENTX{'\n'}pegar
-          seu automóvel.
-        </Message>
+        <Title>{title}</Title>
+        <Message>{message}</Message>
       </Content>
 
       <Footer>

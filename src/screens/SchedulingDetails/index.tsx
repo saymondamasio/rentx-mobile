@@ -90,7 +90,11 @@ export function SchedulingDetails({ navigation, route }: Props) {
         unavailable_dates,
       })
 
-      navigation.navigate('SchedulingComplete')
+      navigation.navigate('Confirmation', {
+        message: 'Agora você só precisa ir\naté a concessionária da RENTX',
+        nextScreenRoute: 'Home',
+        title: 'Carro alugado!',
+      })
     } catch (error) {
       setLoading(false)
 

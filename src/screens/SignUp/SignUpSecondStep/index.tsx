@@ -50,6 +50,12 @@ export function SignUpSecondStep({ navigation, route }: Props) {
       }
 
       await schema.validate(data)
+
+      navigation.navigate('Confirmation', {
+        message: 'Agora é só fazer login\ne aproveitar',
+        nextScreenRoute: 'SignIn',
+        title: 'Conta criada!',
+      })
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Erro ', error.message)
