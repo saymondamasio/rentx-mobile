@@ -23,7 +23,7 @@ export const Steps = styled.View`
 `
 
 export const Title = styled.Text`
-  font-size: ${RFValue(40)};
+  font-size: ${RFValue(40)}px;
   font-family: ${({ theme }) => theme.fonts.secondary_600};
   color: ${({ theme }) => theme.colors.title};
 
