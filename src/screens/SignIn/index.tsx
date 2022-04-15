@@ -9,13 +9,13 @@ import {
 } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import * as Yup from 'yup'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import { useAuth } from '../../hooks/auth'
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>
+type Props = NativeStackScreenProps<StackParamList, 'SignIn'>
 
 export function SignIn({ navigation }: Props) {
   const theme = useTheme()
@@ -36,8 +36,6 @@ export function SignIn({ navigation }: Props) {
       await schema.validate({ email, password })
 
       await signIn({ email, password })
-
-      navigation.navigate('Home')
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Erro ', error.message)

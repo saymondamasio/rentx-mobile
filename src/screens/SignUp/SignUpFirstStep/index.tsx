@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 import * as Yup from 'yup'
-import { RootStackParamList } from '../../../@types/navigation'
+import { StackParamList } from '../../../@types/navigation'
 import { BackButton } from '../../../components/BackButton'
 import { Bullet } from '../../../components/Bullet'
 import { Button } from '../../../components/Button'
@@ -22,7 +22,7 @@ import {
   Title,
 } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SignUpFirstStep'>
+type Props = NativeStackScreenProps<StackParamList, 'SignUpFirstStep'>
 
 export function SignUpFirstStep({ navigation }: Props) {
   const [name, setName] = useState('')

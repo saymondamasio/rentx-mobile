@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { DateData } from 'react-native-calendars'
 import { useTheme } from 'styled-components/native'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import ArrowIcon from '../../assets/arrow.svg'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
@@ -25,7 +25,7 @@ import {
   Title,
 } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Scheduling'>
+type Props = NativeStackScreenProps<StackParamList, 'Scheduling'>
 
 interface IRentalPeriod {
   start: number

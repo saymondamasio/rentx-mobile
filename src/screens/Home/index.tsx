@@ -1,64 +1,47 @@
-import { Ionicons } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { BackHandler } from 'react-native'
-import { PanGestureHandler } from 'react-native-gesture-handler'
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { useTheme } from 'styled-components/native'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import Logo from '../../assets/logo.svg'
 import { Car } from '../../components/Car'
 import { LoadAnimation } from '../../components/LoadAnimation'
 import { CarDTO } from '../../dtos/CarDTO'
 import { api } from '../../services/api'
 import { formatMoney } from '../../utils/formatMoney'
-import {
-  CarList,
-  Container,
-  Header,
-  HeaderContent,
-  MyCarsButtonAnimated,
-  TotalCars,
-} from './styles'
+import { CarList, Container, Header, HeaderContent, TotalCars } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
+type Props = NativeStackScreenProps<StackParamList, 'Home'>
 
 export function Home({ navigation }: Props) {
   const [cars, setCars] = useState<CarDTO[]>([])
   const [loading, setLoading] = useState(false)
-  const theme = useTheme()
 
-  const positionY = useSharedValue(0)
-  const positionX = useSharedValue(0)
+  // Butão flutuante animado
+  // const positionY = useSharedValue(0)
+  // const positionX = useSharedValue(0)
 
-  const myCarsButtonStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: positionX.value },
-      { translateY: positionY.value },
-    ],
-  }))
+  // const myCarsButtonStyle = useAnimatedStyle(() => ({
+  //   transform: [
+  //     { translateX: positionX.value },
+  //     { translateY: positionY.value },
+  //   ],
+  // }))
 
-  const onGestureEvent = useAnimatedGestureHandler({
-    onStart(_, ctx: any) {
-      ctx.positionX = positionX.value
-      ctx.positionY = positionY.value
-    },
-    onActive(event, ctx: any) {
-      positionX.value = event.translationX + ctx.positionX
-      positionY.value = event.translationY + ctx.positionY
-    },
-    onEnd() {
-      positionX.value = withSpring(0)
-      positionY.value = withSpring(0)
-    },
-  })
+  // const onGestureEvent = useAnimatedGestureHandler({
+  //   onStart(_, ctx: any) {
+  //     ctx.positionX = positionX.value
+  //     ctx.positionY = positionY.value
+  //   },
+  //   onActive(event, ctx: any) {
+  //     positionX.value = event.translationX + ctx.positionX
+  //     positionY.value = event.translationY + ctx.positionY
+  //   },
+  //   onEnd() {
+  //     positionX.value = withSpring(0)
+  //     positionY.value = withSpring(0)
+  //   },
+  // })
 
   async function loadCars() {
     try {
@@ -83,20 +66,17 @@ export function Home({ navigation }: Props) {
     loadCars()
   }, [])
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => true
-    )
-    return () => backHandler.remove()
-  }, [])
+  // lock return in android
+  // useEffect(() => {
+  //   const backHandler = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     () => true
+  //   )
+  //   return () => backHandler.remove()
+  // }, [])
 
   function handleGoCarDetails(car: CarDTO) {
     navigation.navigate('CarDetails', { car })
-  }
-
-  function handleGoMyCars() {
-    navigation.navigate('MyCars')
   }
 
   return (
@@ -122,7 +102,8 @@ export function Home({ navigation }: Props) {
         />
       )}
 
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
+      {/* Botão flutuante animado */}
+      {/* <PanGestureHandler onGestureEvent={onGestureEvent}>
         <Animated.View style={[myCarsButtonStyle]}>
           <MyCarsButtonAnimated onPress={handleGoMyCars}>
             <Ionicons
@@ -132,7 +113,7 @@ export function Home({ navigation }: Props) {
             />
           </MyCarsButtonAnimated>
         </Animated.View>
-      </PanGestureHandler>
+      </PanGestureHandler> */}
     </Container>
   )
 }

@@ -9,7 +9,7 @@ import {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
@@ -33,7 +33,7 @@ import {
   Rent,
 } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'CarDetails'>
+type Props = NativeStackScreenProps<StackParamList, 'CarDetails'>
 
 export function CarDetails({ navigation, route }: Props) {
   const { car } = route.params

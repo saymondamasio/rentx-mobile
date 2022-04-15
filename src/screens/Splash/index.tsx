@@ -1,3 +1,5 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import Animated, {
@@ -8,14 +10,20 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList, TabParamList } from '../../@types/navigation'
 import BrandIcon from '../../assets/brand.svg'
 import LogoIcon from '../../assets/logo.svg'
+import { useAuth } from '../../hooks/auth'
 import { Container } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>
+type Props = CompositeScreenProps<
+  NativeStackScreenProps<StackParamList, 'Splash'>,
+  BottomTabScreenProps<TabParamList>
+>
 
 export function Splash({ navigation }: Props) {
+  const { user } = useAuth()
+
   const splashAnimation = useSharedValue(0)
 
   const brandStyle = useAnimatedStyle(() => ({
@@ -47,7 +55,7 @@ export function Splash({ navigation }: Props) {
   }))
 
   function startApp() {
-    navigation.navigate('Home')
+    navigation.navigate(user ? 'AppStack' : 'SignIn')
   }
 
   useEffect(() => {

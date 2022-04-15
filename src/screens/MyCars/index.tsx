@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { useTheme } from 'styled-components/native'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import { BackButton } from '../../components/BackButton'
 import { Car } from '../../components/Car'
 import { LoadAnimation } from '../../components/LoadAnimation'
@@ -26,7 +26,7 @@ import {
   Title,
 } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'MyCars'>
+type Props = NativeStackScreenProps<StackParamList, 'MyCars'>
 
 interface ResponseCar {
   id: string

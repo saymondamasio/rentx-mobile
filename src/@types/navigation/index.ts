@@ -1,6 +1,6 @@
 import { CarDTO } from '../../dtos/CarDTO'
 
-export type RootStackParamList = {
+export type StackParamList = {
   SignIn: undefined
   SignUpFirstStep: undefined
   SignUpSecondStep: {
@@ -21,7 +21,13 @@ export type RootStackParamList = {
   Confirmation: {
     title: string
     message: string
-    nextScreenRoute: keyof RootStackParamList
+    nextScreenRoute: keyof StackParamList
   }
+  MyCars: undefined
+}
+
+export type TabParamList = {
+  AppStack: undefined
+  Profile: undefined
   MyCars: undefined
 }

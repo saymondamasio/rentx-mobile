@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 import { useTheme } from 'styled-components/native'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
@@ -38,7 +38,7 @@ import {
   RentalPriceTotal,
 } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SchedulingDetails'>
+type Props = NativeStackScreenProps<StackParamList, 'SchedulingDetails'>
 
 interface IRentalPeriod {
   startFormatted: string

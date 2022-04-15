@@ -2,13 +2,13 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { useWindowDimensions } from 'react-native'
-import { RootStackParamList } from '../../@types/navigation'
+import { StackParamList } from '../../@types/navigation'
 import DoneIcon from '../../assets/done.svg'
 import LogoIcon from '../../assets/logo_background_gray.svg'
 import { ConfirmButton } from '../../components/ConfirmButton'
 import { Container, Content, Footer, Message, Title } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Confirmation'>
+type Props = NativeStackScreenProps<StackParamList, 'Confirmation'>
 
 export function Confirmation({ navigation, route }: Props) {
   const { width } = useWindowDimensions()

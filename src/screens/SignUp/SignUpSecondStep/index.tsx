@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import * as Yup from 'yup'
-import { RootStackParamList } from '../../../@types/navigation'
+import { StackParamList } from '../../../@types/navigation'
 import { BackButton } from '../../../components/BackButton'
 import { Bullet } from '../../../components/Bullet'
 import { Button } from '../../../components/Button'
@@ -24,7 +24,7 @@ import {
   Title,
 } from './styles'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SignUpSecondStep'>
+type Props = NativeStackScreenProps<StackParamList, 'SignUpSecondStep'>
 
 export function SignUpSecondStep({ navigation, route }: Props) {
   const theme = useTheme()
