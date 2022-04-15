@@ -93,8 +93,8 @@ export function CarDetails({ navigation, route }: Props) {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>{car.rent.priceFormatted}</Price>
+            <Period>{car.period}</Period>
+            <Price>{car.priceFormatted}</Price>
           </Rent>
         </Details>
         <Accessories>

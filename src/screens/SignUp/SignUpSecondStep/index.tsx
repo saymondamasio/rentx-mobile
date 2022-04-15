@@ -13,6 +13,7 @@ import { BackButton } from '../../../components/BackButton'
 import { Bullet } from '../../../components/Bullet'
 import { Button } from '../../../components/Button'
 import { Input } from '../../../components/Input'
+import { api } from '../../../services/api'
 import {
   Container,
   Form,
@@ -27,6 +28,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'SignUpSecondStep'>
 
 export function SignUpSecondStep({ navigation, route }: Props) {
   const theme = useTheme()
+  const { user } = route.params
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -51,6 +53,13 @@ export function SignUpSecondStep({ navigation, route }: Props) {
 
       await schema.validate(data)
 
+      await api.post('users', {
+        name: user.name,
+        email: user.email,
+        driver_license: user.driverLicense,
+        password,
+      })
+
       navigation.navigate('Confirmation', {
         message: 'Agora é só fazer login\ne aproveitar',
         nextScreenRoute: 'SignIn',
@@ -59,7 +68,12 @@ export function SignUpSecondStep({ navigation, route }: Props) {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Erro ', error.message)
+
+        return
       }
+
+      console.log('SignUpSecondStep -> handleRegister -> error', error)
+      Alert.alert('Erro', 'Não foi possível criar sua conta')
     }
   }
 

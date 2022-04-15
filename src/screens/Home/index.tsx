@@ -68,7 +68,7 @@ export function Home({ navigation }: Props) {
 
       const carsFormatted = responseCars.data.map(car => ({
         ...car,
-        rent: { ...car.rent, priceFormatted: formatMoney(car.rent.price) },
+        priceFormatted: formatMoney(car.price),
       }))
 
       setCars(carsFormatted)

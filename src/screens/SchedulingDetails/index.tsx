@@ -56,7 +56,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
   const [loading, setLoading] = useState(false)
 
   const rentTotal = useMemo(
-    () => formatMoney(Number(dates.length * car.rent.price)),
+    () => formatMoney(Number(dates.length * car.price)),
     []
   )
 
@@ -126,8 +126,8 @@ export function SchedulingDetails({ navigation, route }: Props) {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>{car.rent.priceFormatted}</Price>
+            <Period>{car.period}</Period>
+            <Price>{car.priceFormatted}</Price>
           </Rent>
         </Details>
         <Accessories>
@@ -161,7 +161,7 @@ export function SchedulingDetails({ navigation, route }: Props) {
         <RentalPrice>
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
-            <RentalPriceQuota>{`${car.rent.priceFormatted} x ${dates.length} diárias`}</RentalPriceQuota>
+            <RentalPriceQuota>{`${car.priceFormatted} x ${dates.length} diárias`}</RentalPriceQuota>
             <RentalPriceTotal>{rentTotal}</RentalPriceTotal>
           </RentalPriceDetails>
         </RentalPrice>
