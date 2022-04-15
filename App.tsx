@@ -12,6 +12,7 @@ import AppLoading from 'expo-app-loading'
 import React from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components/native'
+import { AuthProvider } from './src/contexts/AuthContext'
 import { Routes } from './src/routes'
 import theme from './src/styles/theme'
 
@@ -30,9 +31,11 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Routes />
-      </GestureHandlerRootView>
+      <AuthProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Routes />
+        </GestureHandlerRootView>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
