@@ -17,6 +17,8 @@ export function Home({ navigation }: Props) {
   const [cars, setCars] = useState<CarDTO[]>([])
   const [loading, setLoading] = useState(false)
 
+  let isMounted = true
+
   // Butão flutuante animado
   // const positionY = useSharedValue(0)
   // const positionX = useSharedValue(0)
@@ -54,16 +56,20 @@ export function Home({ navigation }: Props) {
         priceFormatted: formatMoney(car.price),
       }))
 
-      setCars(carsFormatted)
+      if (isMounted) setCars(carsFormatted)
     } catch (error) {
       console.log('Home - ', error)
     } finally {
-      setLoading(false)
+      if (isMounted) setLoading(false)
     }
   }
 
   useEffect(() => {
     loadCars()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   // lock return in android
