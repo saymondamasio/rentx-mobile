@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
 import { Platform } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { TabParamList } from '../@types/navigation'

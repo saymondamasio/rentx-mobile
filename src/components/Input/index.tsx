@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { ComponentProps, useState } from 'react'
+import React, { ComponentProps, useState } from 'react'
 import { StyleProp, TextInputProps, ViewStyle } from 'react-native'
 import { BorderlessButton } from 'react-native-gesture-handler'
 import { useTheme } from 'styled-components/native'

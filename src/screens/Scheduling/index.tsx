@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { format } from 'date-fns'
 import { StatusBar } from 'expo-status-bar'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import { DateData } from 'react-native-calendars'
 import { useTheme } from 'styled-components/native'

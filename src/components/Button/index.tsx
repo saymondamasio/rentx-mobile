@@ -1,3 +1,4 @@
+import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { RectButtonProps } from 'react-native-gesture-handler'
 import { useTheme } from 'styled-components/native'

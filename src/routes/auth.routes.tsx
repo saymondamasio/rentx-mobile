@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
 import { StackParamList } from '../@types/navigation'
 import { Confirmation } from '../screens/Confirmation'
 import { SignIn } from '../screens/SignIn'

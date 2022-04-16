@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
+import React from 'react'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import {
   Extrapolate,

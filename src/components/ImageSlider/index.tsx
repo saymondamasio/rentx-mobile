@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FlatList, ViewToken } from 'react-native'
 import { Bullet } from '../Bullet'
 import { CarImage, CarImageWrapper, Container, ImageIndexes } from './styles'

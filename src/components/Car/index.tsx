@@ -1,3 +1,4 @@
+import React from 'react'
 import { RectButtonProps } from 'react-native-gesture-handler'
 import { CarDTO } from '../../dtos/CarDTO'
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
