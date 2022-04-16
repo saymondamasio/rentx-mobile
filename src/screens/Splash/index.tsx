@@ -55,7 +55,7 @@ export function Splash({ navigation }: Props) {
   }))
 
   function startApp() {
-    navigation.navigate(user ? 'AppStack' : 'SignIn')
+    navigation.navigate(user.id ? 'AppStack' : 'SignIn')
   }
 
   useEffect(() => {
