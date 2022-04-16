@@ -9,7 +9,6 @@ import {
   useFonts,
 } from '@expo-google-fonts/inter'
 import AppLoading from 'expo-app-loading'
-import React from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components/native'
 import { AuthProvider } from './src/contexts/AuthContext'

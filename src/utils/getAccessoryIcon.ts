@@ -1,4 +1,3 @@
-import React from 'react'
 import { SvgProps } from 'react-native-svg'
 import AccelerationIcon from '../assets/acceleration.svg'
 import CarIcon from '../assets/car.svg'

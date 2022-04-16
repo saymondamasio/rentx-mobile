@@ -1,5 +1,4 @@
 import { MaterialIcons } from '@expo/vector-icons'
-import React from 'react'
 import { BorderlessButtonProps } from 'react-native-gesture-handler'
 import { useTheme } from 'styled-components/native'
 import { Container } from './styles'

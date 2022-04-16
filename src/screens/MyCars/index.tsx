@@ -1,7 +1,7 @@
 import { AntDesign } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { format } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { StackParamList } from '../../@types/navigation'

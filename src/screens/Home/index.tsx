@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { StackParamList } from '../../@types/navigation'
 import Logo from '../../assets/logo.svg'

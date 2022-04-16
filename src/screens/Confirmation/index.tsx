@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
 import { useWindowDimensions } from 'react-native'
 import { StackParamList } from '../../@types/navigation'
 import DoneIcon from '../../assets/done.svg'
