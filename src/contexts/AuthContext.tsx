@@ -23,6 +23,7 @@ interface AuthContextData {
   signIn: (credentials: SignCredentials) => Promise<void>
   signOut: () => Promise<void>
   updateUser: (user: User) => Promise<void>
+  loading: boolean
 }
 
 interface Props {
@@ -33,14 +34,19 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: Props) {
   const [data, setData] = useState<User>({} as User)
+  const [loading, setLoading] = useState(false)
 
   async function loadUserData() {
+    setLoading(true)
+
     const userCollection = database.get<ModelUser>('users')
     const response = await userCollection.query().fetch()
 
     if (response.length > 0) {
       const userData = response[0]._raw as unknown as User
       setData(userData)
+
+      setLoading(false)
     }
   }
 
@@ -110,7 +116,9 @@ export function AuthProvider({ children }: Props) {
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, updateUser, user: data }}>
+    <AuthContext.Provider
+      value={{ signIn, signOut, updateUser, user: data, loading }}
+    >
       {children}
     </AuthContext.Provider>
   )
