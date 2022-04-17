@@ -17,6 +17,7 @@ import { Button } from '../../components/Button'
 import { ImageSlider } from '../../components/ImageSlider'
 import { CarDTO } from '../../dtos/CarDTO'
 import { api } from '../../services/api'
+import { formatMoney } from '../../utils/formatMoney'
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
 import {
   About,
@@ -77,8 +78,13 @@ export function CarDetails({ navigation, route }: Props) {
   }
 
   async function fetchOnlineData() {
-    const response = await api.get(`cars/${car.id}`)
-    setCar(response.data)
+    const response = await api.get<CarDTO>(`cars/${car.id}`)
+    const carsFormatted = {
+      ...response.data,
+      priceFormatted: formatMoney(response.data.price),
+    }
+
+    setCar(carsFormatted)
   }
 
   useEffect(() => {
