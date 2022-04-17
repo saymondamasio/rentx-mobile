@@ -1,6 +1,7 @@
+import { useNetInfo } from '@react-native-community/netinfo'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import {
   Extrapolate,
@@ -14,6 +15,8 @@ import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
 import { ImageSlider } from '../../components/ImageSlider'
+import { CarDTO } from '../../dtos/CarDTO'
+import { api } from '../../services/api'
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
 import {
   About,
@@ -28,6 +31,7 @@ import {
   Header,
   HeaderAnimated,
   Name,
+  OfflineInfo,
   Period,
   Price,
   Rent,
@@ -36,7 +40,11 @@ import {
 type Props = NativeStackScreenProps<StackParamList, 'CarDetails'>
 
 export function CarDetails({ navigation, route }: Props) {
-  const { car } = route.params
+  const { car: carParam } = route.params
+
+  const [car, setCar] = useState<CarDTO>(carParam)
+
+  const netInfo = useNetInfo()
 
   const statusBarHeight = getStatusBarHeight()
 
@@ -54,6 +62,10 @@ export function CarDetails({ navigation, route }: Props) {
     ),
   }))
 
+  const sliderCarsStyleAnimation = useAnimatedStyle(() => ({
+    opacity: interpolate(scrollY.value, [0, 200], [1, 0], Extrapolate.CLAMP),
+  }))
+
   function handleConfirmRental() {
     navigation.navigate('Scheduling', {
       car,
@@ -64,9 +76,16 @@ export function CarDetails({ navigation, route }: Props) {
     navigation.goBack()
   }
 
-  const sliderCarsStyleAnimation = useAnimatedStyle(() => ({
-    opacity: interpolate(scrollY.value, [0, 200], [1, 0], Extrapolate.CLAMP),
-  }))
+  async function fetchOnlineData() {
+    const response = await api.get(`cars/${car.id}`)
+    setCar(response.data)
+  }
+
+  useEffect(() => {
+    if (netInfo.isConnected === true) {
+      fetchOnlineData()
+    }
+  }, [netInfo.isConnected])
 
   return (
     <Container>
@@ -78,7 +97,13 @@ export function CarDetails({ navigation, route }: Props) {
         </Header>
 
         <CarImages style={sliderCarsStyleAnimation}>
-          <ImageSlider imagesUrl={car.photos} />
+          <ImageSlider
+            imagesUrl={
+              car.photos
+                ? car.photos
+                : [{ id: car.thumbnail, photo: car.thumbnail }]
+            }
+          />
         </CarImages>
       </HeaderAnimated>
 
@@ -94,18 +119,22 @@ export function CarDetails({ navigation, route }: Props) {
 
           <Rent>
             <Period>{car.period}</Period>
-            <Price>{car.priceFormatted}</Price>
+            <Price>
+              {netInfo.isConnected === true ? car.priceFormatted : '...'}
+            </Price>
           </Rent>
         </Details>
-        <Accessories>
-          {car.accessories.map(item => (
-            <Accessory
-              key={item.type}
-              icon={getAccessoryIcon(item.type)}
-              name={item.name}
-            />
-          ))}
-        </Accessories>
+        {car.accessories && (
+          <Accessories>
+            {car.accessories.map(item => (
+              <Accessory
+                key={item.type}
+                icon={getAccessoryIcon(item.type)}
+                name={item.name}
+              />
+            ))}
+          </Accessories>
+        )}
         <About>{car.about}</About>
       </Content>
 
@@ -113,7 +142,14 @@ export function CarDetails({ navigation, route }: Props) {
         <Button
           title="Escolher período do aluguel"
           onPress={handleConfirmRental}
+          enabled={netInfo.isConnected === true}
         />
+
+        {netInfo.isConnected === false && (
+          <OfflineInfo>
+            Conecte-se a internet para ver mais detalhes e agendar seu carro
+          </OfflineInfo>
+        )}
       </Footer>
     </Container>
   )

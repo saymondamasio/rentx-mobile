@@ -112,3 +112,11 @@ export const HeaderAnimated = styled(Animated.View)`
   overflow: hidden;
   z-index: 1;
 `
+
+export const OfflineInfo = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.primary_400};
+  color: ${({ theme }) => theme.colors.main};
+  font-size: ${RFValue(12)}px;
+
+  text-align: center;
+`
