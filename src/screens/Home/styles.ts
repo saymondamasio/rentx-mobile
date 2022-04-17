@@ -3,7 +3,18 @@ import { RectButton } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { CarDTO } from '../../dtos/CarDTO'
+
+interface CarType {
+  id: string
+  brand: string
+  name: string
+  about: string
+  period: string
+  price: number
+  priceFormatted: string
+  fuel_type: string
+  thumbnail: string
+}
 
 const RectButtonAnimated = Animated.createAnimatedComponent(RectButton)
 
@@ -36,7 +47,7 @@ export const TotalCars = styled.Text`
 `
 
 export const CarList = styled(
-  FlatList as new (props: FlatListProps<CarDTO>) => FlatList<CarDTO>
+  FlatList as new (props: FlatListProps<CarType>) => FlatList<CarType>
 ).attrs({
   contentContainerStyle: {
     padding: 24,

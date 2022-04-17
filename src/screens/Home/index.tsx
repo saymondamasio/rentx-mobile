@@ -1,3 +1,5 @@
+import { synchronize } from '@nozbe/watermelondb/sync'
+import { useNetInfo } from '@react-native-community/netinfo'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
@@ -6,16 +8,30 @@ import { StackParamList } from '../../@types/navigation'
 import Logo from '../../assets/logo.svg'
 import { Car } from '../../components/Car'
 import { LoadAnimation } from '../../components/LoadAnimation'
-import { CarDTO } from '../../dtos/CarDTO'
+import { database } from '../../database'
+import { Car as ModelCar } from '../../database/model/Car'
 import { api } from '../../services/api'
 import { formatMoney } from '../../utils/formatMoney'
 import { CarList, Container, Header, HeaderContent, TotalCars } from './styles'
 
 type Props = NativeStackScreenProps<StackParamList, 'Home'>
 
+interface CarType {
+  id: string
+  brand: string
+  name: string
+  about: string
+  period: string
+  price: number
+  priceFormatted: string
+  fuel_type: string
+  thumbnail: string
+}
+
 export function Home({ navigation }: Props) {
-  const [cars, setCars] = useState<CarDTO[]>([])
+  const [cars, setCars] = useState<CarType[]>([])
   const [loading, setLoading] = useState(false)
+  const netInfo = useNetInfo()
 
   let isMounted = true
 
@@ -49,10 +65,18 @@ export function Home({ navigation }: Props) {
     try {
       setLoading(true)
 
-      const responseCars = await api.get<CarDTO[]>('/cars')
+      const carCollection = database.get<ModelCar>('cars')
+      const cars = await carCollection.query().fetch()
 
-      const carsFormatted = responseCars.data.map(car => ({
-        ...car,
+      const carsFormatted = cars.map(car => ({
+        id: car.id,
+        brand: car.brand,
+        name: car.name,
+        about: car.about,
+        period: car.period,
+        price: car.price,
+        thumbnail: car.thumbnail,
+        fuel_type: car.fuel_type,
         priceFormatted: formatMoney(car.price),
       }))
 
@@ -72,6 +96,12 @@ export function Home({ navigation }: Props) {
     }
   }, [])
 
+  useEffect(() => {
+    if (netInfo.isConnected === true) {
+      offlineSynchronize()
+    }
+  }, [netInfo.isConnected])
+
   // lock return in android
   // useEffect(() => {
   //   const backHandler = BackHandler.addEventListener(
@@ -81,8 +111,35 @@ export function Home({ navigation }: Props) {
   //   return () => backHandler.remove()
   // }, [])
 
-  function handleGoCarDetails(car: CarDTO) {
+  function handleGoCarDetails(car: CarType) {
     navigation.navigate('CarDetails', { car })
+  }
+
+  async function offlineSynchronize() {
+    await synchronize({
+      database,
+      // mudanças no lado do servidor
+      // lastPullAt: ultima atualização
+      pullChanges: async ({ lastPulledAt }) => {
+        // obtém as modificações do banco desde a ultima verificação
+        console.log('recebendo mudanças do servidor')
+
+        const response = await api.get(
+          `/cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`
+        )
+
+        const { changes, latestVersion } = response.data
+
+        return { changes, timestamp: latestVersion }
+      },
+      // mudanças no lado do cliente
+      // changes: mudanças que aconteceram
+      pushChanges: async ({ changes }) => {
+        // console.log('enviando mudanças para o servidor')
+        // const user = changes.users
+        // await api.post('/users/sync', user)
+      },
+    })
   }
 
   return (
