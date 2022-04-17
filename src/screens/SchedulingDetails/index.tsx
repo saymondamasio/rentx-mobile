@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons'
+import { useNetInfo } from '@react-native-community/netinfo'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { format } from 'date-fns'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -9,6 +10,7 @@ import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { Button } from '../../components/Button'
 import { ImageSlider } from '../../components/ImageSlider'
+import { CarDTO } from '../../dtos/CarDTO'
 import { api } from '../../services/api'
 import { formatMoney } from '../../utils/formatMoney'
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
@@ -48,7 +50,11 @@ interface IRentalPeriod {
 export function SchedulingDetails({ navigation, route }: Props) {
   const theme = useTheme()
 
-  const { car, dates } = route.params
+  const { car: carParam, dates } = route.params
+
+  const [car, setCar] = useState<CarDTO>(carParam)
+
+  const netInfo = useNetInfo()
 
   const [rentalPeriod, setRentalPeriod] = useState<IRentalPeriod>(
     {} as IRentalPeriod
@@ -66,6 +72,22 @@ export function SchedulingDetails({ navigation, route }: Props) {
       endFormatted: format(new Date(dates[dates.length - 1]), 'dd/MM/yyyy'),
     })
   }, [])
+
+  async function fetchOnlineData() {
+    const response = await api.get<CarDTO>(`cars/${car.id}`)
+    const carsFormatted = {
+      ...response.data,
+      priceFormatted: formatMoney(response.data.price),
+    }
+
+    setCar(carsFormatted)
+  }
+
+  useEffect(() => {
+    if (netInfo.isConnected === true) {
+      fetchOnlineData()
+    }
+  }, [netInfo.isConnected])
 
   async function handleConfirmScheduling() {
     try {
@@ -115,7 +137,13 @@ export function SchedulingDetails({ navigation, route }: Props) {
       </Header>
 
       <CarImages>
-        <ImageSlider imagesUrl={car.photos} />
+        <ImageSlider
+          imagesUrl={
+            car.photos
+              ? car.photos
+              : [{ id: car.thumbnail, photo: car.thumbnail }]
+          }
+        />
       </CarImages>
 
       <Content>
@@ -130,15 +158,17 @@ export function SchedulingDetails({ navigation, route }: Props) {
             <Price>{car.priceFormatted}</Price>
           </Rent>
         </Details>
-        <Accessories>
-          {car.accessories.map(accessory => (
-            <Accessory
-              key={accessory.type}
-              icon={getAccessoryIcon(accessory.type)}
-              name={accessory.name}
-            />
-          ))}
-        </Accessories>
+        {car.accessories && (
+          <Accessories>
+            {car.accessories.map(item => (
+              <Accessory
+                key={item.type}
+                icon={getAccessoryIcon(item.type)}
+                name={item.name}
+              />
+            ))}
+          </Accessories>
+        )}
 
         <RentalPeriod>
           <CalendarIcon>
