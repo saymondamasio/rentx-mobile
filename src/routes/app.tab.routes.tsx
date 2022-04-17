@@ -3,11 +3,11 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { TabParamList } from '../@types/navigation'
-import CarIcon from '../assets/cars.svg'
+import CarIcon from '../assets/car.svg'
 import HomeIcon from '../assets/home.svg'
 import ProfileIcon from '../assets/profile.svg'
-import { Home } from '../screens/Home'
 import { MyCars } from '../screens/MyCars'
+import { Profile } from '../screens/Profile'
 import { AppStackRoutes } from './app.stack.routes'
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>()
@@ -38,7 +38,7 @@ export function AppTabRoutes() {
       />
       <Screen
         name="Profile"
-        component={Home}
+        component={Profile}
         options={{
           tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
         }}
