@@ -21,6 +21,7 @@ interface SignCredentials {
 interface AuthContextData {
   user: User
   signIn: (credentials: SignCredentials) => Promise<void>
+  signOut: () => Promise<void>
 }
 
 interface Props {
@@ -75,8 +76,22 @@ export function AuthProvider({ children }: Props) {
     }
   }
 
+  async function signOut() {
+    try {
+      const userCollection = database.get<ModelUser>('users')
+      await database.write(async () => {
+        const userSelected = await userCollection.find(data.id)
+        await userSelected.destroyPermanently()
+      })
+
+      setData({} as User)
+    } catch (error: any) {
+      throw new Error(error)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ signIn, user: data }}>
+    <AuthContext.Provider value={{ signIn, signOut, user: data }}>
       {children}
     </AuthContext.Provider>
   )
