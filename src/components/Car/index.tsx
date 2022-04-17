@@ -1,6 +1,7 @@
+import { useNetInfo } from '@react-native-community/netinfo'
 import React from 'react'
 import { RectButtonProps } from 'react-native-gesture-handler'
-import { CarDTO } from '../../dtos/CarDTO'
+import { useTheme } from 'styled-components/native'
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon'
 import {
   About,
@@ -15,12 +16,26 @@ import {
   Type,
 } from './styles'
 
+interface CarType {
+  brand: string
+  name: string
+  period: string
+  price: number
+  priceFormatted: string
+  fuel_type: string
+  thumbnail: string
+}
+
 interface Props extends RectButtonProps {
-  data: CarDTO
+  data: CarType
 }
 
 export function Car({ data, ...rest }: Props) {
   const MotorIcon = getAccessoryIcon(data.fuel_type)
+
+  const theme = useTheme()
+
+  const netInfo = useNetInfo()
 
   return (
     <Container {...rest}>
@@ -31,11 +46,13 @@ export function Car({ data, ...rest }: Props) {
         <About>
           <Rent>
             <Period>{data.period}</Period>
-            <Price>{data.priceFormatted}</Price>
+            <Price>
+              {netInfo.isConnected === true ? data.priceFormatted : '...'}
+            </Price>
           </Rent>
 
           <Type>
-            <MotorIcon />
+            <MotorIcon color={theme.colors.header} />
           </Type>
         </About>
       </Details>
