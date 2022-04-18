@@ -93,28 +93,17 @@ export function SchedulingDetails({ navigation, route }: Props) {
     try {
       setLoading(true)
 
-      const schedulesByCar = await api.get(`schedules_bycars/${car.id}`)
-
-      const unavailable_dates = [
-        ...schedulesByCar.data.unavailable_dates,
-        ...dates,
-      ]
-
-      await api.post('schedules_byuser', {
+      await api.post('rentals', {
         user_id: 1,
-        car,
+        car_id: car.id,
         start_date: dates[0],
         end_date: dates[dates.length - 1],
-      })
-
-      await api.put(`schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates,
+        total: rentTotal,
       })
 
       navigation.navigate('Confirmation', {
         message: 'Agora você só precisa ir\naté a concessionária da RENTX',
-        nextScreenRoute: 'Home',
+        nextScreenRoute: 'AppTabs',
         title: 'Carro alugado!',
       })
     } catch (error) {

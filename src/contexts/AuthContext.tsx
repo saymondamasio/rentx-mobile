@@ -45,9 +45,9 @@ export function AuthProvider({ children }: Props) {
     if (response.length > 0) {
       const userData = response[0]._raw as unknown as User
       setData(userData)
-
-      setLoading(false)
     }
+
+    setLoading(false)
   }
 
   useEffect(() => {

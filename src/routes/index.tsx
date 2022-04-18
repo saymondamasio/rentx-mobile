@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import { LoadAnimation } from '../components/LoadAnimation'
 import { useAuth } from '../hooks/auth'
-import { AppTabRoutes } from './app.tab.routes'
+import { AppStackRoutes } from './app.stack.routes'
 import { AuthRoutes } from './auth.routes'
 
 export function Routes() {
@@ -12,7 +12,7 @@ export function Routes() {
     <LoadAnimation />
   ) : (
     <NavigationContainer>
-      {user.id ? <AppTabRoutes /> : <AuthRoutes />}
+      {user.id ? <AppStackRoutes /> : <AuthRoutes />}
     </NavigationContainer>
   )
 }

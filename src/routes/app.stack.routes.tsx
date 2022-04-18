@@ -3,21 +3,24 @@ import React from 'react'
 import { StackParamList } from '../@types/navigation'
 import { CarDetails } from '../screens/CarDetails'
 import { Confirmation } from '../screens/Confirmation'
-import { Home } from '../screens/Home'
 import { MyCars } from '../screens/MyCars'
 import { Scheduling } from '../screens/Scheduling'
 import { SchedulingDetails } from '../screens/SchedulingDetails'
 import { Splash } from '../screens/Splash'
+import { AppTabRoutes } from './app.tab.routes'
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>()
 
 export function AppStackRoutes() {
   return (
-    <Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
+    <Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="AppTabs"
+    >
       <Screen name="Splash" component={Splash} />
       <Screen
-        name="Home"
-        component={Home}
+        name="AppTabs"
+        component={AppTabRoutes}
         // disable return in ios
         options={{ gestureEnabled: false }}
       />

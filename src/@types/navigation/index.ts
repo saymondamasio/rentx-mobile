@@ -2,6 +2,7 @@ import { CarDTO } from '../../dtos/CarDTO'
 
 export type StackParamList = {
   SignIn: undefined
+  AppTabs: undefined
   SignUpFirstStep: undefined
   SignUpSecondStep: {
     user: {
@@ -11,7 +12,6 @@ export type StackParamList = {
     }
   }
   Splash: undefined
-  Home: undefined
   CarDetails: { car: CarDTO }
   Scheduling: { car: CarDTO }
   SchedulingDetails: {
@@ -27,7 +27,7 @@ export type StackParamList = {
 }
 
 export type TabParamList = {
-  AppStack: undefined
+  Home: undefined
   Profile: undefined
   MyCars: undefined
 }

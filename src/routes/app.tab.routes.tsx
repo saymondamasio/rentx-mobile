@@ -6,9 +6,9 @@ import { TabParamList } from '../@types/navigation'
 import CarIcon from '../assets/car.svg'
 import HomeIcon from '../assets/home.svg'
 import ProfileIcon from '../assets/profile.svg'
+import { Home } from '../screens/Home'
 import { MyCars } from '../screens/MyCars'
 import { Profile } from '../screens/Profile'
-import { AppStackRoutes } from './app.stack.routes'
 
 const { Navigator, Screen } = createBottomTabNavigator<TabParamList>()
 
@@ -30,17 +30,10 @@ export function AppTabRoutes() {
       }}
     >
       <Screen
-        name="AppStack"
-        component={AppStackRoutes}
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ color }) => <HomeIcon color={color} />,
-        }}
-      />
-      <Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
         }}
       />
       <Screen
@@ -48,6 +41,13 @@ export function AppTabRoutes() {
         component={MyCars}
         options={{
           tabBarIcon: ({ color }) => <CarIcon color={color} />,
+        }}
+      />
+      <Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => <ProfileIcon color={color} />,
         }}
       />
     </Navigator>
