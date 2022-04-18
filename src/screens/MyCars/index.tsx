@@ -1,7 +1,8 @@
 import { AntDesign } from '@expo/vector-icons'
+import { useFocusEffect } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { format } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import { StackParamList } from '../../@types/navigation'
@@ -10,6 +11,7 @@ import { Car } from '../../components/Car'
 import { LoadAnimation } from '../../components/LoadAnimation'
 import { CarDTO } from '../../dtos/CarDTO'
 import { api } from '../../services/api'
+import { formatMoney } from '../../utils/formatMoney'
 import {
   Appointments,
   AppointmentsQuantity,
@@ -28,35 +30,39 @@ import {
 
 type Props = NativeStackScreenProps<StackParamList, 'MyCars'>
 
-interface ResponseCar {
+interface ResponseRental {
   id: string
   user_id: string
   car: CarDTO
   start_date: string
+  startDateFormatted: string
   end_date: string
+  endDateFormatted: string
 }
 
 export function MyCars({ navigation }: Props) {
-  const [cars, setCars] = useState<ResponseCar[]>([])
+  const [rentals, setRentals] = useState<ResponseRental[]>([])
   const [loading, setLoading] = useState(true)
 
   const theme = useTheme()
 
-  async function fetchCars() {
+  async function fetchRentals() {
     try {
-      const response = await api.get<ResponseCar[]>(
-        '/schedules_byuser?user_id=1'
-      )
+      const response = await api.get<ResponseRental[]>('rentals')
 
-      const cars = response.data
+      const rentals = response.data
 
-      const carsFormatted = cars.map(car => ({
-        ...car,
-        start_date: format(new Date(car.start_date), 'dd/MM/yyyy'),
-        end_date: format(new Date(car.end_date), 'dd/MM/yyyy'),
+      const rentalsFormatted = rentals.map(rental => ({
+        ...rental,
+        car: {
+          ...rental.car,
+          priceFormatted: formatMoney(rental.car.price),
+        },
+        startDateFormatted: format(new Date(rental.start_date), 'dd/MM/yyyy'),
+        endDateFormatted: format(new Date(rental.end_date), 'dd/MM/yyyy'),
       }))
 
-      setCars(carsFormatted)
+      setRentals(rentalsFormatted)
     } catch (error) {
       console.log(error)
     } finally {
@@ -64,9 +70,13 @@ export function MyCars({ navigation }: Props) {
     }
   }
 
-  useEffect(() => {
-    fetchCars()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      console.log('useFocusEffect')
+
+      fetchRentals()
+    }, [])
+  )
 
   function handleBack() {
     navigation.goBack()
@@ -92,11 +102,11 @@ export function MyCars({ navigation }: Props) {
         <Content>
           <Appointments>
             <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-            <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
+            <AppointmentsQuantity>{rentals.length}</AppointmentsQuantity>
           </Appointments>
 
           <FlatList
-            data={cars}
+            data={rentals}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
@@ -105,14 +115,14 @@ export function MyCars({ navigation }: Props) {
                 <CarFooter>
                   <CarFooterTitle>Período</CarFooterTitle>
                   <CarFooterPeriod>
-                    <CarFooterDate>{item.start_date}</CarFooterDate>
+                    <CarFooterDate>{item.startDateFormatted}</CarFooterDate>
                     <AntDesign
                       name="arrowright"
                       size={20}
                       color={theme.colors.title}
                       style={{ marginHorizontal: 10 }}
                     />
-                    <CarFooterDate>{item.end_date}</CarFooterDate>
+                    <CarFooterDate>{item.endDateFormatted}</CarFooterDate>
                   </CarFooterPeriod>
                 </CarFooter>
               </CarWrapper>
